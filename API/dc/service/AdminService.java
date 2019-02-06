@@ -158,6 +158,21 @@ public class AdminService {
 		}
 		return student;
 	}
+	
+	public Object GetStudentById(int instituteId,int studentId) throws Exception{
+		Object student = null;
+		try {
+			student = adminRepository.GetStudentById(instituteId, studentId, helper);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if(ExceptionHelper.ErrorCheck(e))
+			{
+				throw  new ConstraintViolationException(ExceptionHelper.getErrorMessage(),null);
+			}
+			throw e;
+		}
+		return student;
+	}
 	public List<Faculty> GetFaculty(int instituteId) throws Exception{
 		List<Faculty> student = null;
 		try {
@@ -190,6 +205,19 @@ public class AdminService {
 	public void CreateStudent(Student student) throws Exception{
 		try {
 			adminRepository.CreateStudent(student, helper);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if(ExceptionHelper.ErrorCheck(e))
+			{
+				throw  new ConstraintViolationException(ExceptionHelper.getErrorMessage(),null);
+			}
+			throw e;
+		}
+	}
+	
+	public void EditStudent(Student student) throws Exception{
+		try {
+			adminRepository.EditStudent(student, helper);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			if(ExceptionHelper.ErrorCheck(e))

@@ -141,6 +141,19 @@ public class AdminRepository {
 		return student;
 	}
 	
+	public Object GetStudentById(int instituteId,int studentId, JDBCHelper helper) throws SQLException{
+		Map<String,Object> userparam = new HashMap<String, Object>();
+		Object student = null;
+		userparam.put("@p_InstituteId", instituteId);
+		userparam.put("@p_studentid", studentId);
+		ResultSet resultset = helper.ExecuteResult("INST_GetStudentById",userparam);
+		if(resultset.results.size() != 0)
+		{
+			student =  mapper.convertValue(resultset.results.get(0),Object.class);
+		}
+		return student;
+	}
+	
 	public void CreateStudent(Student student, JDBCHelper helper) throws SQLException{
 		
 		Map<String,Object> userparam = new HashMap<String, Object>();
@@ -152,6 +165,21 @@ public class AdminRepository {
 		userparam.put("@p_email", student.getEmail());
 		userparam.put("@p_address", student.getAddress());
 		helper.Execute("STD_CreateStudent", userparam);
+		
+	}
+	
+	public void EditStudent(Student student, JDBCHelper helper) throws SQLException{
+		
+		Map<String,Object> userparam = new HashMap<String, Object>();
+		userparam.put("@p_InstituteId", student.getInstituteId());
+		userparam.put("@p_studentid", student.getStudentId());
+		userparam.put("@p_fullname", student.getFullName());
+		userparam.put("@p_departmentid", student.getDepartmentId());
+		userparam.put("@p_yearid", student.getYearId());
+		userparam.put("@p_contactno", student.getContactNo());
+		userparam.put("@p_email", student.getEmail());
+		userparam.put("@p_address", student.getAddress());
+		helper.Execute("STD_EditStudent", userparam);
 		
 	}
 	

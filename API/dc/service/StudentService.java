@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.ConstraintViolationException;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+
 import dc.businessmodel.DashboardVm;
 import dc.businessmodel.Student;
 import dc.businessmodel.StudentDashboardVM;

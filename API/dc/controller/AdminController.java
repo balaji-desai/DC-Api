@@ -203,6 +203,23 @@ public class AdminController {
 	}
 	
 	@GET
+	@Path("getstudentbyid")
+	@RolesAllowed({"admin"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response GetStudentById(@QueryParam("studentid")int studentId, @Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			Object student= adminService.GetStudentById(logedinuser.getInstituteId(),studentId);
+			return Response.status(200).entity(student).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e; 
+		}
+	}
+	
+	@GET
 	@Path("getfacultys")
 	@RolesAllowed({"admin"})
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -253,6 +270,25 @@ public class AdminController {
 			throw e; 
 		}
 	}
+	
+	@POST
+	@Path("editstudent")
+	@RolesAllowed({"admin"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response EditStudent(Student student, @Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			student.setInstituteId(logedinuser.getInstituteId());
+			adminService.EditStudent(student);
+			return Response.status(200).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e; 
+		}
+	}
+	
 	@GET
 	@Path("getfacultytype")
 	@RolesAllowed({"admin"})
