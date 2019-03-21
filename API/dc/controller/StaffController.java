@@ -1,5 +1,7 @@
 package dc.controller;
 
+import java.util.Map;
+
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -14,6 +16,9 @@ import javax.ws.rs.core.Response;
 
 import dc.businessmodel.AdminModel;
 import dc.businessmodel.FormModel;
+import dc.businessmodel.HallTicketInfo;
+import dc.businessmodel.ResponceModel;
+import dc.businessmodel.ResultModel;
 import dc.businessmodel.UserAuthModel;
 import dc.service.StaffService;
 
@@ -76,6 +81,66 @@ public class StaffController {
 			throw e;
 		}
 		return Response.status(200).build();
+	}
+	
+	@POST
+	@Path("sethallticket")
+	@RolesAllowed({"exam section"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response SetHallTicket(
+			HallTicketInfo param
+			,@Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			param.setInstituteId(logedinuser.getInstituteId());
+			Object obj = staffService.SetHallTicket(param);
+			return Response.status(200).entity(obj).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("getsubject")
+	@RolesAllowed({"exam section"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response GetSubjects(
+			HallTicketInfo param
+			,@Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			param.setInstituteId(logedinuser.getInstituteId());
+			Object obj = staffService.GetSubject(param);
+			return Response.status(200).entity(obj).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("verifysubject")
+	@RolesAllowed({"exam section"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response VerifyStudentSubject(
+			ResultModel param
+			,@Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			param.setInstituteId(logedinuser.getInstituteId());
+			ResponceModel obj = staffService.VerifyStudentSubject(param);
+			return Response.status(200).entity(obj).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
 	}
 
 }

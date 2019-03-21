@@ -23,6 +23,7 @@ public class ExceptionHelper {
 		error.put("form_alreadyverified", "Form already verified.");
 		error.put("form_notsubmit", "Form not submited.");
 		error.put("Form_Subjectnotavailable", "Subject not available please contact with respective department HOD");
+		error.put("HallTkt_Info", "Subject not assign.");
 	}
 	
 	public static boolean ErrorCheck(Exception ex)

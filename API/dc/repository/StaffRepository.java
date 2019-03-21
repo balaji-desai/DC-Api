@@ -1,17 +1,25 @@
 package dc.repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.sqlserver.jdbc.SQLServerDataTable;
 
 import dc.businessmodel.Faculty;
+import dc.businessmodel.FacultyType;
 import dc.businessmodel.FormModel;
+import dc.businessmodel.HallTicketInfo;
+import dc.businessmodel.ResultModel;
 import dc.utility.JDBCHelper;
+import dc.utility.ResultSet;
 
 @Singleton
 public class StaffRepository {
@@ -51,5 +59,64 @@ public void AckVerificaton(int instituteId, int formId, int studentId, JDBCHelpe
 	helper.Execute("STF_AckVerificaton", userparam);
 	
 }
+public Object SetHallTicket(HallTicketInfo param, JDBCHelper helper) throws SQLException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException{
+	TypeReference<List<Object>> ref=new TypeReference<List<Object>>(){};
+	Object obj = null;
+	Map<String,Object> userparam = new HashMap<String, Object>();
+	userparam.put("@p_InstituteId",  param.getInstituteId());
+	userparam.put("@p_yearid",  param.getYearId());
+	userparam.put("@p_studentid", param.getStudentId());
+	userparam.put("@p_semisterid", param.getSemisterId());
+	userparam.put("@p_departmentid", param.getDepartmentId());
+	userparam.put("@p_hallticketno", param.getHallticketNo());
+	ResultSet result = helper.ExecuteResult("STF_SetHallTicket", userparam);
+	if(result.results.size() != 0)
+	{
+		obj = mapper.convertValue(result.results, ref);
+	}
+	return obj;
+	
+}
+public Object GetSubject(HallTicketInfo param, JDBCHelper helper) throws SQLException{
+	Object obj = null;
+	TypeReference<List<Object>> ref=new TypeReference<List<Object>>(){};
+	Map<String,Object> userparam = new HashMap<String, Object>();
+	userparam.put("@p_InstituteId", param.getInstituteId());
+	userparam.put("@p_yearid", param.getYearId());
+	userparam.put("@p_departmentid", param.getDepartmentId());
+	userparam.put("@p_semisterid", param.getSemisterId());
+	ResultSet result = helper.ExecuteResult("STF_GetSubject", userparam);
+	if(result.results.size() != 0)
+	{
+		obj = mapper.convertValue(result.results, ref);
+	}
+	return obj;
+}
+
+public List<Object> VerifyStudentSubject(ResultModel param,SQLServerDataTable list, JDBCHelper helper) throws SQLException{
+	
+	Map<String,Object> userparam = new HashMap<String, Object>();
+	TypeReference<List<Object>> ref=new TypeReference<List<Object>>(){};
+	List<Object> output = new ArrayList<Object>();
+	userparam.put("@p_InstituteId", param.getInstituteId());
+	userparam.put("@p_yearid", param.getYearId());
+	userparam.put("@p_departmentid", param.getDepartmentId());
+	userparam.put("@p_semisterid", param.getSemisterId());
+	userparam.put("@p_subjectlist", list);
+	userparam.put("@p_launchdate", param.getLaunchDateModel());
+	List<ResultSet> results = helper.ExecuteMultipleResultset("STF_VerifyStudentSubject", userparam);
+	if(results.size() >= 1)
+	{
+		output.add(mapper.convertValue(results.get(0).results, ref));
+	}
+	if(results.size() >= 2)
+	{
+		output.add(results.get(1).results.get(0).get("IsSuccess"));
+	}
+	return output;
+	
+}
+
+
 }
 
