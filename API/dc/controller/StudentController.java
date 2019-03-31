@@ -173,6 +173,45 @@ public class StudentController {
 		}
 	}
 	
+	@GET
+	@Path("getfailsubjects")
+	@RolesAllowed({"student"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response GetFaildSubjects(
+			@QueryParam("formid")int formId,
+			@Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			List<Object> forms = studentService.GetFaildSubjects(logedinuser.getInstituteId(), logedinuser.getUserId(), formId);
+			return Response.status(200).entity(forms).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
+	}
+	
+	@GET
+	@Path("getfailsubjectsbyid")
+	@RolesAllowed({"student"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response GetFaildSubjectsById(
+			@QueryParam("formid")int formId,
+			@QueryParam("studentid")int studentId,
+			@Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			List<Object> forms = studentService.GetFaildSubjects(logedinuser.getInstituteId(), studentId, formId);
+			return Response.status(200).entity(forms).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
+	}
+	
 	@POST
 	@Path("uploadphoto")
 	@RolesAllowed({"student"})

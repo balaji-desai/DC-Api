@@ -105,7 +105,7 @@ public class StaffService {
 			list.addColumnMetadata("Value",java.sql.Types.VARCHAR);
 			list.setTvpName("IdValue");
 		for (ResultModel pur : param.getSubjectList()) {
-			if(pur != null && pur.getExamSeatNoStr() != null)
+			if(pur != null && pur.getExamSeatNoStr() != null && !pur.getExamSeatNoStr().trim().equals(""))
 			{				
 				String[] strarr = pur.getExamSeatNoStr().split(",");
 				for (String str : strarr) {	

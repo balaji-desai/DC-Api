@@ -115,6 +115,21 @@ public class StudentRepository {
 		return subjects;
 	}
 	
+	public List<Object> GetFaildSubjects(int instituteId,int studentId, int formId, JDBCHelper helper) throws SQLException{
+		List<Object> subjects = null;
+		Map<String,Object> userparam = new HashMap<String, Object>();
+		TypeReference<List<Object>> ref=new TypeReference<List<Object>>(){};
+		userparam.put("@p_InstituteId", instituteId);
+		userparam.put("@p_studentid", studentId);
+		userparam.put("@p_formid", formId);
+		ResultSet result = helper.ExecuteResult("STD_GetFaildSubjects",userparam);
+		if(result.results.size() != 0)
+		{
+			subjects = mapper.convertValue(result.results, ref);
+		}
+		return subjects;
+	}
+	
 	public void StudentFormResponce(int instituteId,int studentId,int formId, JDBCHelper helper) throws SQLException{
 		Map<String,Object> userparam = new HashMap<String, Object>();
 		Object forms = null;

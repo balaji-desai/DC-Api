@@ -143,6 +143,19 @@ public class StudentService {
 		}
 	}
 	
+	public List<Object> GetFaildSubjects(int instituteId, int studentId, int formId) throws Exception{
+		try {
+			return studentRepository.GetFaildSubjects(instituteId, studentId, formId, helper);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if(ExceptionHelper.ErrorCheck(e))
+			{
+				throw  new ConstraintViolationException(ExceptionHelper.getErrorMessage(),null);
+			}
+			throw e;
+		}
+	}
+	
 	public void UploadPhoto(int studentId,InputStream photo) throws Exception{
 		try {
 			studentRepository.UploadPhoto(studentId, photo, helper);
