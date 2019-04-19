@@ -58,4 +58,17 @@ public class FacultyRepository {
 		}
 		return sub;
 	}
+	
+	public List<Object> GetResultAnalysis(int InstituteId,int facultyId,JDBCHelper helper) throws SQLException{
+		
+		Map<String,Object> userparam = new HashMap<String, Object>();
+		TypeReference<List<Object>> ref=new TypeReference<List<Object>>(){};
+		
+		userparam.put("@p_InstituteId", InstituteId);
+		userparam.put("@p_facultyId", facultyId);
+		ResultSet results = helper.ExecuteResult("FACT_ResultAnalysis", userparam);
+		
+		return mapper.convertValue(results.results, ref);
+		
+	}
 }

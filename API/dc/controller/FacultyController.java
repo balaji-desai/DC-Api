@@ -78,5 +78,23 @@ public class FacultyController {
 		}
 		return Response.status(200).entity(model).build();
 	}
+	
+	@GET
+	@Path("getresultanalysis")
+	@RolesAllowed({"teacher","hod"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response GetResultAnalysis(@Context ContainerRequestContext crc)
+			throws Exception {
+		List<Object> model = null;
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			model = facultyService.GetResultAnalysis(logedinuser.getInstituteId(),logedinuser.getUserId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
+		return Response.status(200).entity(model).build();
+	}
 
 }

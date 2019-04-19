@@ -60,4 +60,17 @@ public class FacultyService {
 			throw e;
 		}
 	}
+	
+	public List<Object> GetResultAnalysis(int InstituteId,int facultyId) throws Exception{
+		try {
+			 return facultyRepository.GetResultAnalysis(InstituteId, facultyId, helper);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if(ExceptionHelper.ErrorCheck(e))
+			{
+				throw  new ConstraintViolationException(ExceptionHelper.getErrorMessage(),null);
+			}
+			throw e;
+		}
+	}
 }
