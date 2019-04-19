@@ -42,6 +42,10 @@ public class StudentRepository {
 		{
 			dsh.setNotifications((List<NotificationView>) mapper.convertValue(resultset.get(1).results, ref));
 		}
+		if(resultset.size() >= 3)
+		{
+			dsh.setStudentAcademicDetails(mapper.convertValue(resultset.get(2).results.get(0), Object.class));
+		}
 		return dsh;
 	}
 	

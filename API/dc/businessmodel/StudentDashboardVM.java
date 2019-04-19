@@ -7,6 +7,7 @@ private boolean ACK;
 private boolean Correction;
 private String Note;
 private List<NotificationView> Notifications;
+private Object StudentAcademicDetails;
 
 public boolean isACK() {
 	return ACK;
@@ -38,5 +39,13 @@ public List<NotificationView> getNotifications() {
 
 public void setNotifications(List<NotificationView> notifications) {
 	Notifications = notifications;
+}
+
+public Object getStudentAcademicDetails() {
+	return StudentAcademicDetails;
+}
+
+public void setStudentAcademicDetails(Object studentAcademicDetails) {
+	StudentAcademicDetails = studentAcademicDetails;
 }
 }

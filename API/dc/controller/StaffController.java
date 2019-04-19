@@ -105,7 +105,7 @@ public class StaffController {
 	
 	@POST
 	@Path("getsubject")
-	@RolesAllowed({"exam section"})
+	@RolesAllowed({"exam section","accountant"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response GetSubjects(
 			HallTicketInfo param
@@ -136,6 +136,42 @@ public class StaffController {
 					.getProperty("logedinobj");
 			param.setInstituteId(logedinuser.getInstituteId());
 			ResponceModel obj = staffService.VerifyStudentSubject(param);
+			return Response.status(200).entity(obj).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
+	}
+	
+	@GET
+	@Path("getformstatus")
+	@RolesAllowed({"accountant"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response GetFormStatus(@Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			Object obj = staffService.GetFormStatus(logedinuser.getInstituteId());
+			return Response.status(200).entity(obj).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
+	}
+	
+	@GET
+	@Path("getdashboarddet")
+	@RolesAllowed({"exam section"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response GetDashDet(
+			@QueryParam("detailtype")String DetailType,
+			@Context ContainerRequestContext crc)
+			throws Exception {
+		try {
+			UserAuthModel logedinuser = (UserAuthModel) crc
+					.getProperty("logedinobj");
+			Object obj = staffService.GetDashDet(logedinuser.getInstituteId(), DetailType);
 			return Response.status(200).entity(obj).build();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

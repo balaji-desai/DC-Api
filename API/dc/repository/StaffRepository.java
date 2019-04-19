@@ -117,6 +117,30 @@ public List<Object> VerifyStudentSubject(ResultModel param,SQLServerDataTable li
 	
 }
 
+public List<Object> GetFormStatus(int InstituteId, JDBCHelper helper) throws SQLException{
+	
+	Map<String,Object> userparam = new HashMap<String, Object>();
+	TypeReference<List<Object>> ref=new TypeReference<List<Object>>(){};
+	
+	userparam.put("@p_InstituteId", InstituteId);
+	ResultSet results = helper.ExecuteResult("STF_GetFormStatus", userparam);
+	
+	return mapper.convertValue(results.results, ref);
+	
+}
+
+public List<Object> GetDashDet(int InstituteId,String  DetailType,JDBCHelper helper) throws SQLException{
+	
+	Map<String,Object> userparam = new HashMap<String, Object>();
+	TypeReference<List<Object>> ref=new TypeReference<List<Object>>(){};
+	
+	userparam.put("@p_InstituteId", InstituteId);
+	userparam.put("@p_detailtype", DetailType);
+	ResultSet results = helper.ExecuteResult("STF_GetDashDet", userparam);
+	
+	return mapper.convertValue(results.results, ref);
+	
+}
 
 }
 

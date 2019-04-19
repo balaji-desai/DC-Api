@@ -96,6 +96,20 @@ public class StaffService {
 		}
 	}
 	
+	public List<Object> GetFormStatus(int InstituteId) throws Exception{
+		try {
+			return staffRepository.GetFormStatus(InstituteId, helper);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if(ExceptionHelper.ErrorCheck(e))
+			{
+				throw  new ConstraintViolationException(ExceptionHelper.getErrorMessage(),null);
+			}
+			throw e;
+		}
+	}
+	
 	public ResponceModel VerifyStudentSubject(ResultModel param) throws Exception{
 		try {
 			ResponceModel model = new ResponceModel();
@@ -128,6 +142,20 @@ public class StaffService {
 				model.setResponce(output.get(0));
 			}
 			return model;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if(ExceptionHelper.ErrorCheck(e))
+			{
+				throw  new ConstraintViolationException(ExceptionHelper.getErrorMessage(),null);
+			}
+			throw e;
+		}
+	}
+	
+	public List<Object> GetDashDet(int InstituteId, String DetailType) throws Exception{
+		try {
+			return staffRepository.GetDashDet(InstituteId, DetailType, helper);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
